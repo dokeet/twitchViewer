@@ -19,12 +19,24 @@ integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkz
 <body>
   <div id="app">
     <div class="container">
+      <button v-on:click="getStream">CLICK</button>
+      <input id="icon_search" class="validate" type="text" v-model="channel" placeholder="Aphromoo">
+      <div class="row">
+
+        <div v-if="streamProfile.stream" class="col-6">
+          <h1>{{streamProfile.stream.channel.display_name}}</h1>
+          <h1>{{streamProfile.stream.channel.status}}</h1>
+          </div>
+        <div v-else>
+          <h1>wrong</h1>
+        </div>
+
+      </div>
 
     </div>
 
-    <pre>{{$data | json}}</pre>
-
-
+  <hr>
+  <pre>{{$data | json}}</pre>
   </div>
   <!-- Latest compiled and minified JavaScript -->
 

@@ -1,3 +1,4 @@
+Vue.http.options.root = 'https://api.twitch.tv/kraken/';
 const vm = new Vue({
   el: '#app',
 
@@ -5,21 +6,38 @@ const vm = new Vue({
     this.getStream();
   },
   data: {
-    streamProfile: []
+    streamProfile: [],
+    channelProfile: [],
+    channel: ''
   },
   methods: {
     getStream: function (){
-      this.$http({
-        url: 'https://api.twitch.tv/kraken/streams/aphromoo',
-        method: 'JSONP',
-      }).then(this.setData.bind(this));
-    },
-    setData: function(res) {
-      this.streamProfile = res.data.stream;
+      this.$http.get('https://api.twitch.tv/kraken/streams/'+this.channel, function(data) {
+        this.$set('streamProfile', data)
+        if(this.streamProfile.stream === null){
+          this.$http.get(this.streamProfile._links.channel, function(data) {
+            this.$set('channelProfile', data)
+          })
+        }
+      })
+      .catch(function(data, status, request){
+        console.log(status, request);
+      })
     }
   }
 })
 
 /*
+
+this.$http.get('http://httpbin.org/ip', function (data) {
+            // set data on vm
+            this.$set('origin', data)
+
+        }).error(function (data, status, request) {
+            // handle error
+        })
+
+      }
+
 https://www.twitch.tv/aphromoo
 */
