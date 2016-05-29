@@ -4,27 +4,30 @@ const vm = new Vue({
 
   ready: function() {
     this.getStream();
+    
   },
   data: {
     streamProfile: [],
     channelProfile: [],
-    channel: ''
+    channel: 'Aphromoo'
   },
   methods: {
     getStream: function (){
       this.$http.get('https://api.twitch.tv/kraken/streams/'+this.channel, function(data) {
         this.$set('streamProfile', data)
-        if(this.streamProfile.stream === null){
-          this.$http.get(this.streamProfile._links.channel, function(data) {
-            this.$set('channelProfile', data)
-          })
-        }
-      })
-      .catch(function(data, status, request){
+      }).catch(function(data, status, request){
         console.log(status, request);
+      })
+    },
+    getChannel: function() {
+      this.$http.get(this.streamProfile._links.channel, function(data) {
+        this.$set('channelProfile', data)
+      }).catch(function(data, status, request){
+        console.log('error', status, request)
       })
     }
   }
+
 })
 
 /*

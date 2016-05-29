@@ -2,14 +2,14 @@
 <html>
 <head>
   <title>Twitch Viewer</title>
-  <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-<!-- Optional theme -->
 
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+  <!-- materialize -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
   <link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href='https://fonts.googleapis.com/css?family=Nunito:400,700' rel='stylesheet' type='text/css'>
@@ -22,28 +22,52 @@ integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkz
       <button v-on:click="getStream">CLICK</button>
       <input id="icon_search" class="validate" type="text" v-model="channel" placeholder="Aphromoo">
       <div class="row">
-
-        <div v-if="streamProfile.stream" class="col-6">
-          <h1>{{streamProfile.stream.channel.display_name}}</h1>
-          <h1>{{streamProfile.stream.channel.status}}</h1>
-          </div>
-        <div v-else>
-          <h1>wrong</h1>
+        <div v-if="streamProfile.stream" class="col s8">
+          <div class="card" @click="getChannel">
+            <div class="card-image waves-effect waves-block waves-light">
+              <img class="activator" :src="streamProfile.stream.preview.large">
+            </div>
+            <div class="card-content">
+              <span class="card-title activator grey-text text-darken-4">
+                <p id="display_name">{{streamProfile.stream.channel.display_name}} <span id="playing">is playing {{streamProfile.stream.game}}</span></p>
+                <p><i class="fa fa-user" aria-hidden="true"></i> {{streamProfile.stream.viewers}}</p>
+                <i class="fa fa-bars right"></i></span>
+                <p id="status">
+                  {{streamProfile.stream.channel.status}}
+                </p>
+              <hr>
+              <a :href="channelProfile.url" target="_blank">Watch!</a>
+            </div>
+            <div class="card-reveal" v-if="getChannel">
+              <img class="img-responsive" :src="channelProfile.logo">
+              <span class="card-title grey-text text-darken-4">{{streamProfile.stream.channel.display_name}}<i class="fa fa-times right"></i></span>
+              <p>Views: </p>
+            </div>
         </div>
 
-      </div>
+        </div>
+        <div v-else="getChannel">
 
+        </div>
+      </div>
     </div>
 
-  <hr>
-  <pre>{{$data | json}}</pre>
+    <pre>{{$data | json}} </pre>
+
+  <!--
+  <img :src="streamProfile.stream.preview.medium" alt="preview">
+    <h3>{{streamProfile.stream.channel.display_name}}</h3>
+    <p>{{streamProfile.stream.channel.status}}</p>
+  --->
+</div>
   </div>
   <!-- Latest compiled and minified JavaScript -->
-
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/vue/latest/vue.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.0/vue-resource.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+
+
   <script src="js/main.js"></script>
 </body>
 </html>

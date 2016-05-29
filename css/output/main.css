@@ -1,4 +1,16 @@
-h1 {
-  color: black; }
+a {
+  text-decoration: none; }
+
+#display_name {
+  font-size: 24px; }
+
+#live {
+  font-size: 18px; }
+
+#playing {
+  font-size: 16px; }
+
+#status {
+  font-size: 14px; }
 
 /*# sourceMappingURL=main.css.map */
