@@ -20,7 +20,7 @@
   <div id="app">
     <div class="container">
       <template id="get-channel">
-        <button v-on:click="getStream(channel)">CLICK</button>
+        <button v-on:click="getStream(channel)">test button</button>
         <input id="icon_search" class="validate" type="text" v-model="channel" placeholder="Aphromoo">
         <div v-if="streamProfile.stream">
           <div class="row">
@@ -28,7 +28,7 @@
             <div class="card">
               <div class="card-image" class="circle responsive-img">
                 <img :src="streamProfile.stream.preview.large">
-                <span class="card-title">{{streamProfile.stream.channel.display_name}}</span>
+                <span class="card-title">{{streamProfile.stream.channel.display_name}} is live</span>
               </div>
               <div class="card-content">
                 <p id="display_name">{{streamProfile.stream.channel.display_name}} <span id="playing">is playing {{streamProfile.stream.game}}</span></p>
