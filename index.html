@@ -22,7 +22,8 @@
       <button v-on:click="getStream">CLICK</button>
       <input id="icon_search" class="validate" type="text" v-model="channel" placeholder="Aphromoo">
       <div class="row">
-        <div v-if="streamProfile.stream" class="col s8">
+        <template v-if="streamProfile.stream">
+        <div class="col s8">
           <div class="card" @click="getChannel">
             <div class="card-image waves-effect waves-block waves-light">
               <img class="activator" :src="streamProfile.stream.preview.large">
@@ -38,7 +39,7 @@
               <hr>
               <a :href="channelProfile.url" target="_blank">Watch!</a>
             </div>
-            <div class="card-reveal" v-if="getChannel">
+            <div class="card-reveal">
               <img class="img-responsive" :src="channelProfile.logo">
               <span class="card-title grey-text text-darken-4">{{streamProfile.stream.channel.display_name}}<i class="fa fa-times right"></i></span>
               <p>Views: </p>
@@ -46,9 +47,32 @@
         </div>
 
         </div>
-        <div v-else="getChannel">
+      </template>
+        <template v-else>
+          <div class="col s8">
+            <div class="card">
+              <div class="card-image waves-effect waves-block waves-light">
+                <img class="activator" :src="channelProfile.logo">
+              </div>
+              <div class="card-content">
+                <span class="card-title activator grey-text text-darken-4">
+                  <p id="display_name">{{}}<span id="playing"></span></p>
+                  <p><i class="fa fa-user" aria-hidden="true"></i> </p>
+                  <i class="fa fa-bars right"></i></span>
+                  <p id="status">
 
+                  </p>
+                <hr>
+                <a :href="channelProfile.url" target="_blank">Watch!</a>
+              </div>
+              <div class="card-reveal">
+                <img class="img-responsive" :src="channelProfile.logo">
+                <span class="card-title grey-text text-darken-4"><i class="fa fa-times right"></i></span>
+                <p>Views: </p>
+              </div>
+          </div>
         </div>
+      </template>
       </div>
     </div>
 

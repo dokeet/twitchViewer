@@ -1,11 +1,10 @@
-Vue.http.options.root = 'https://api.twitch.tv/kraken/';
+
 const vm = new Vue({
   el: '#app',
 
   ready: function() {
-    this.getStream();
-    
-  },
+      this.getStream();
+    },
   data: {
     streamProfile: [],
     channelProfile: [],
@@ -17,7 +16,12 @@ const vm = new Vue({
         this.$set('streamProfile', data)
       }).catch(function(data, status, request){
         console.log(status, request);
+      }).then(function(){
+        if(this.streamProfile.stream === null){
+          this.getChannel();
+        }
       })
+
     },
     getChannel: function() {
       this.$http.get(this.streamProfile._links.channel, function(data) {
