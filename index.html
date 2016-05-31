@@ -20,11 +20,11 @@
   <div id="app">
     <div class="container">
       <template id="get-channel">
-        <button v-on:click="getStream(channel)">test button</button>
-        <input id="icon_search" class="validate" type="text" v-model="channel" placeholder="Aphromoo">
+        <!-- <button v-on:click="getStream()">test button</button>
+        <input id="icon_search" class="validate" type="text" v-model="channel" placeholder="Aphromoo"> -->
         <div v-if="streamProfile.stream">
           <div class="row">
-          <div class="col s12 m7">
+          <div class="col s6 m4">
             <div class="card">
               <div class="card-image" class="circle responsive-img">
                 <img :src="streamProfile.stream.preview.large">
@@ -46,7 +46,7 @@
         </div>
         <div v-else>
           <div class="row">
-          <div class="col s12 m7">
+          <div class="col s6 m4">
             <div class="card red darken-4">
               <div class="card-image">
                 <img :src="channelProfile.logo">
@@ -67,12 +67,15 @@
         </div>
       </template>
 
-      <channels></channels>
-      <channels></channels>
+      <div v-for="channel in channels">
+        <channels :channels="channel"></channels>
+      </div>
 
 
 
   </div>
+
+  <pre>{{$data | json}}</pre>
 </div>
 
 

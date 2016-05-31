@@ -2,19 +2,21 @@ Vue.config.debug = true;
 Vue.component('channels', {
     template: '#get-channel',
 
+    props: ['channels'],
+
     data: function(){
       return {
         streamProfile: [],
         channelProfile: [],
-        channel: 'TSM_Dyrus'
+        channel: this.channels.channel
       }
     },
     ready: function(){
-      this.getStream();
+      this.getStream(this.channel);
     },
     methods: {
-      getStream: function (){
-        this.$http.get('https://api.twitch.tv/kraken/streams/'+this.channel, function(data) {
+      getStream: function (channel){
+        this.$http.get('https://api.twitch.tv/kraken/streams/'+channel, function(data) {
           this.$set('streamProfile', data)
         }).catch(function(data, status, request){
           console.log(status, request);
@@ -33,7 +35,7 @@ Vue.component('channels', {
         })
       }
     },
-    props: ['stream']
+
 
 });
 
@@ -42,13 +44,16 @@ new Vue({
 
   el: '#app',
 
-  components: 'channels',
-
   data: {
     channels: [
-      'freecodecamp',
-      'hastad'
-    ]
+      {channel: 'freecodecamp'},
+      {channel: 'hastad'},
+      {channel: 'TSM_Dyrus'},
+      {channel: 'Keireth'},
+      {channel: 'TSM_Bjergsen'}
+    ],
+    channelProfile: {},
+    streamProfile: {}
   }
 
 
