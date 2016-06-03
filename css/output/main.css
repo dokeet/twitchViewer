@@ -1,6 +1,6 @@
 a {
   text-decoration: none;
-  color: #ffffff; }
+  color: white; }
 
 #display_name {
   font-size: 24px; }
@@ -13,5 +13,12 @@ a {
 
 #status {
   font-size: 14px; }
+  #status p {
+    color: black; }
+  #status span {
+    font-weight: bold; }
+
+.card-title {
+  text-shadow: 1px 1px 1px black; }
 
 /*# sourceMappingURL=main.css.map */
