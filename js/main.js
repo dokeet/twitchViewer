@@ -9,7 +9,7 @@ Vue.component('channels-online', {
         streamProfile: [],
         channelProfile: [],
         channel: this.channels.channel,
-        status: true
+        status: true,
       }
     },
     ready: function(){
@@ -20,7 +20,8 @@ Vue.component('channels-online', {
         this.$http.get('https://api.twitch.tv/kraken/streams/'+channel, function(data) {
           this.$set('streamProfile', data)
         }).catch(function(data, status, request){
-          console.log(status, request);
+            this.$log(status, request)
+
         }).then(function(){
           if(this.streamProfile.stream === null){
             this.status = false
@@ -38,8 +39,6 @@ Vue.component('channels-online', {
       },
 
     },
-
-
 });
 
 Vue.component('channels-offline', {
@@ -52,7 +51,6 @@ Vue.component('channels-offline', {
         streamProfile: [],
         channelProfile: [],
         channel: this.channels.channel,
-        status: true
       }
     },
     ready: function(){
@@ -62,15 +60,14 @@ Vue.component('channels-offline', {
       getStream: function (channel){
         this.$http.get('https://api.twitch.tv/kraken/streams/'+channel, function(data) {
           this.$set('streamProfile', data)
-        }).catch(function(data, status, request){
-          console.log(status, request);
         }).then(function(){
           if(this.streamProfile.stream === null){
             this.status = false
             this.getChannel();
           }
-        })
-
+        }).catch(function(data, status, request){
+          this.$log(status)
+          });
       },
       getChannel: function() {
         this.$http.get(this.streamProfile._links.channel, function(data) {
@@ -79,10 +76,7 @@ Vue.component('channels-offline', {
           console.log('error', status, request)
         })
       },
-
     },
-
-
 });
 
 
@@ -98,8 +92,7 @@ new Vue({
       {channel: 'Keireth'},
       {channel: 'TSM_Bjergsen'},
       {channel: 'imaqtpie'},
-      {channel: 'Trick2g'},
-      {channel: 'comster404'}
+      {channel: 'Trick2g'}
     ],
 
   },
