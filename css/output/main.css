@@ -21,4 +21,7 @@ a {
 .card-title {
   text-shadow: 1px 1px 1px black; }
 
+[v-cloak] {
+  display: none; }
+
 /*# sourceMappingURL=main.css.map */

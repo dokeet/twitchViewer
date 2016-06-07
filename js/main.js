@@ -9,7 +9,7 @@ Vue.component('channels-online', {
         streamProfile: [],
         channelProfile: [],
         channel: this.channels.channel,
-        status: true,
+
       }
     },
     ready: function(){
@@ -24,7 +24,7 @@ Vue.component('channels-online', {
 
         }).then(function(){
           if(this.streamProfile.stream === null){
-            this.status = false
+
             this.getChannel();
           }
         })
@@ -51,29 +51,33 @@ Vue.component('channels-offline', {
         streamProfile: [],
         channelProfile: [],
         channel: this.channels.channel,
+        wrongChannels: [],
       }
     },
-    ready: function(){
+    created: function(){
       this.getStream(this.channel);
     },
     methods: {
       getStream: function (channel){
         this.$http.get('https://api.twitch.tv/kraken/streams/'+channel, function(data) {
           this.$set('streamProfile', data)
+
         }).then(function(){
-          if(this.streamProfile.stream === null){
-            this.status = false
-            this.getChannel();
-          }
-        }).catch(function(data, status, request){
-          this.$log(status)
+            if(this.streamProfile.stream === null){
+
+              this.getChannel();
+            }
+          }).catch(function(data, status, request){
+            this.$log(status)
+
+            console.log('error ok')
           });
       },
       getChannel: function() {
         this.$http.get(this.streamProfile._links.channel, function(data) {
           this.$set('channelProfile', data)
         }).catch(function(data, status, request){
-          console.log('error', status, request)
+
         })
       },
     },
@@ -92,7 +96,9 @@ new Vue({
       {channel: 'Keireth'},
       {channel: 'TSM_Bjergsen'},
       {channel: 'imaqtpie'},
-      {channel: 'Trick2g'}
+      {channel: 'Trick2g'},
+      {channel: 'flosd'},
+      {channel: 'brtt'}
     ],
 
   },
