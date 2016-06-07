@@ -12,35 +12,25 @@
 </head>
 <body>
   <div id="app">
-    <div class="container">
+    <div class="container"  v-cloak>
       <div class="row">
-      <div class="col s6" id="online" v-cloak>
-        <h1>Channels online:</h1>
+      <div class="offset-s4 col s6" id="online">
+        <img src="http://gamersforgiving.org/files/2013/12/ResizedImage574162-twitch-logo-black.png" class="responsive-img">
         <div v-for="channel in channels">
-          <channels-online :channels="channel"></channels-online>
+          <channels :channels="channel"></channels>
         </div>
       </div>
-      <div class="col s6" id="offline" v-cloak>
-        <h1>Channels offline: </h1>
-          <div v-for="channel in channels">
-            <channels-offline :channels="channel"></channels-offline>
-          </div>
-        </div>
-
     </div>
-
   <!-- <pre>{{$data | json}}</pre> -->
   </div>
 </div>
 
 <!-- TEMPLATE -->
 
-<template id="channels-online">
+<template id="channels">
   <!-- <button v-on:click="getStream()">test button</button>
   <input id="icon_search" class="validate" type="text" v-model="channel" placeholder="Aphromoo"> -->
   <div v-if="streamProfile.stream">
-    <div class="row">
-    <div class="col s12">
       <div class="card ">
         <div class="card-image" class="responsive-img">
           <a :href="streamProfile.stream.preview.large" target="_blank"><img :src="streamProfile.stream.preview.large" class="image"></a>
@@ -58,62 +48,45 @@
         </div>
       </div>
     </div>
+
   </div>
+  <div v-else="streamProfile === null">
+      <div class="card ">
+        <template v-if="streamProfile.stream === null">
+          <div class="card-image" class="responsive-img">
+          <a :href="channelProfile.url" target="_blank"><img :src="channelProfile.logo" class="image"></a>
+            <span class="card-title">{{channelProfile.display_name}} is offline</span>
+          </div>
+        <div class="card-content">
+          <p id="status">
+            <span>Last status:</span> {{channelProfile.status}}
+          </p>
+        </div>
+        <div class="card-action red darken-4">
+          <a :href="channelProfile.url" target="_blank" class="white-text">Last videos</a>
+        </div>
+        </template>
+        <template v-else="channelProfile.data.status == 404">
+          <div class="card-image" class="responsive-img">
+            <img src="http://images.8tracks.com/cover/i/009/556/092/404_not_found-5844.jpg" class="image">
+           <span class="card-title">404</span>
+          </div>
+          <div class="card-content">
+            <p id="status">
+              <span>Status:</span> Channel: {{channels.channel}}, doesnt exist.
+            </p>
+          </div>
+          <div class="card-action red darken-4">
+            <a href="http://twitch.tv" target="_blank" class="white-text">404</a>
+          </div>
+        </template>
+
+      </div>
+
+
   </div>
 </template>
 
-<template id="channels-offline">
-<div v-if="!streamProfile.stream">
-    <div class="row">
-       <div class="col s12">
-         <div class="card red darken-4">
-           <div class="card-image">
-             <div v-if="channelProfile.profile_banner">
-               <a :href="channelProfile.profile_banner" target="_blank">
-               <img :src="channelProfile.profile_banner"></a>
-             </div>
-             <div v-else>
-               <a :href="channelProfile.logo" target="_blank">
-               <img :src="channelProfile.logo"><a/>
-             </div>
-             <span class="card-title">{{channelProfile.display_name}} is offline</span>
-           </div>
-           <div class="card-content white">
-
-             <span id="status">
-               <p>Last Status:
-                {{channelProfile.status}}</p>
-             </span>
-           </div>
-           <div class="card-action">
-             <a :href="channelProfile.url" target="_blank" class="white-text">Old videos</a>
-           </div>
-         </div>
-       </div>
-     </div>
-</div>
-<!-- <div v-else="streamProfile == ''">
-  <div>
-     <div class="col s12">
-       <div class="card red darken-4">
-         <div class="card-image">
-             <img src="" alt="error aa">
-           <span class="card-title">error</span>
-         </div>
-         <div class="card-content white">
-
-           <span id="status">
-             <p>no existo</p>
-           </span>
-         </div>
-         <div class="card-action">
-           <a href="" target="_blank" class="white-text"></a>
-         </div>
-       </div>
-     </div>
-   </div>
-</div> -->
-</template>
 
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://cdn.jsdelivr.net/vue/latest/vue.js"></script>

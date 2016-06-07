@@ -24,4 +24,7 @@ a {
 [v-cloak] {
   display: none; }
 
+.container {
+  display: inline-grid; }
+
 /*# sourceMappingURL=main.css.map */
