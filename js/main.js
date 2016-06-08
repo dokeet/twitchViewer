@@ -22,10 +22,9 @@ Vue.component('channels', {
           this.$set('streamProfile', data)
           }).then(function(){
           if(this.streamProfile.stream === null){
-            this.channelStatus = false
             this.getChannel();
+            this.channelStatus = false
           }
-
         }).catch(function(data, status, request){
             this.channelStatus = false
             this.$set('channelProfile', data)
@@ -43,22 +42,23 @@ Vue.component('channels', {
 
     },
 });
-new Vue({
+const vm = new Vue({
 
   el: '#app',
 
   data: {
 
     channels: [
-      {channel: 'freecodecamp', status: null},
-      {channel: 'hastad', status: null},
-      {channel: 'TSM_Dyrus', status: null},
-      {channel: 'Keireth', status: null},
-      {channel: 'TSM_Bjergsen', status: null},
-      {channel: 'imaqtpie', status: null},
-      {channel: 'Trick2g', status: null},
-      {channel: 'flosd', status: null},
-      {channel: 'camfoster404', status: null}
+      {channel: 'freecodecamp'},
+      {channel: 'hastad'},
+      {channel: 'TSM_Dyrus'},
+      {channel: 'Keireth'},
+      {channel: 'TSM_Bjergsen'},
+      {channel: 'imaqtpie'},
+      {channel: 'Trick2g'},
+      {channel: 'flosd'},
+      {channel: 'camfoster404'},
+      {channel: 'wrongchannel4'}
     ],
 
   },
