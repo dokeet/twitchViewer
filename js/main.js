@@ -1,6 +1,7 @@
 Vue.config.debug = true;
-Vue.component('channels-online', {
-    template: '#channels-online',
+
+Vue.component('channels', {
+    template: '#channels',
 
     props: ['channels'],
 
@@ -9,7 +10,7 @@ Vue.component('channels-online', {
         streamProfile: [],
         channelProfile: [],
         channel: this.channels.channel,
-        status: true
+        channelStatus: true
       }
     },
     ready: function(){
@@ -17,15 +18,17 @@ Vue.component('channels-online', {
     },
     methods: {
       getStream: function (channel){
-        this.$http.get('https://api.twitch.tv/kraken/streams/'+channel, function(data) {
+        this.$http.get('https://api.twitch.tv/kraken/streams/'+channel, function(data, status, request) {
           this.$set('streamProfile', data)
-        }).catch(function(data, status, request){
-          console.log(status, request);
-        }).then(function(){
+          }).then(function(){
           if(this.streamProfile.stream === null){
-            this.status = false
             this.getChannel();
+            this.channelStatus = false
           }
+        }).catch(function(data, status, request){
+            this.channelStatus = false
+            this.$set('channelProfile', data)
+            this.$log(status, request, data)
         })
 
       },
@@ -38,59 +41,13 @@ Vue.component('channels-online', {
       },
 
     },
-
-
 });
-
-Vue.component('channels-offline', {
-    template: '#channels-offline',
-
-    props: ['channels'],
-
-    data: function(){
-      return {
-        streamProfile: [],
-        channelProfile: [],
-        channel: this.channels.channel,
-        status: true
-      }
-    },
-    ready: function(){
-      this.getStream(this.channel);
-    },
-    methods: {
-      getStream: function (channel){
-        this.$http.get('https://api.twitch.tv/kraken/streams/'+channel, function(data) {
-          this.$set('streamProfile', data)
-        }).catch(function(data, status, request){
-          console.log(status, request);
-        }).then(function(){
-          if(this.streamProfile.stream === null){
-            this.status = false
-            this.getChannel();
-          }
-        })
-
-      },
-      getChannel: function() {
-        this.$http.get(this.streamProfile._links.channel, function(data) {
-          this.$set('channelProfile', data)
-        }).catch(function(data, status, request){
-          console.log('error', status, request)
-        })
-      },
-
-    },
-
-
-});
-
-
-new Vue({
+const vm = new Vue({
 
   el: '#app',
 
   data: {
+
     channels: [
       {channel: 'freecodecamp'},
       {channel: 'hastad'},
@@ -99,7 +56,9 @@ new Vue({
       {channel: 'TSM_Bjergsen'},
       {channel: 'imaqtpie'},
       {channel: 'Trick2g'},
-      {channel: 'comster404'}
+      {channel: 'flosd'},
+      {channel: 'camfoster404'},
+      {channel: 'wrongchannel4'}
     ],
 
   },

@@ -1,121 +1,102 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Twitch Viewer</title>
-
-
-  <!-- materialize -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
-
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-
-  <link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href='https://fonts.googleapis.com/css?family=Nunito:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/css/output/main.css"
-  media="screen" title="no title" charset="utf-8">
-</head>
-<body>
-  <div id="app">
-    <div class="container">
-
-      <div class="row" v-cloak>
-      <div class="col s6" id="online">
-        <h1>Channels online:</h1>
-        <div v-for="channel in channels">
-          <channels-online :channels="channel"></channels-online>
-        </div>
-      </div>
-      <div class="col s6" id="offline">
-        <h1>Channels offline: </h1>
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <title>Twitch Viewer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/output/main.css"
+    media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+    <div id="app">
+      <div class="container"  v-cloak>
+        <div class="row">
+        <div class="col s6" id="online">
+          <img src="http://gamersforgiving.org/files/2013/12/ResizedImage574162-twitch-logo-black.png" class="responsive-img">
           <div v-for="channel in channels">
-            <channels-offline :channels="channel"></channels-offline>
+            <channels :channels="channel"></channels>
           </div>
-        </div>
-
+         </div>
+      </div>
+    <!-- <pre>{{$data | json}}</pre> -->
     </div>
-
-  <!-- <pre>{{$data | json}}</pre> -->
   </div>
-</div>
 
-<!-- TEMPLATE -->
+  <!-- TEMPLATE -->
 
-<template id="channels-online">
-  <!-- <button v-on:click="getStream()">test button</button>
-  <input id="icon_search" class="validate" type="text" v-model="channel" placeholder="Aphromoo"> -->
-  <div v-if="streamProfile.stream">
-    <div class="row">
-    <div class="col s12">
-      <div class="card ">
-        <div class="card-image" class="responsive-img">
-          <a :href="streamProfile.stream.preview.large" target="_blank"><img :src="streamProfile.stream.preview.large" class="image"></a>
-          <span class="card-title">{{streamProfile.stream.channel.display_name}} is live</span>
-        </div>
-        <div class="card-content">
-          <p id="display_name">{{streamProfile.stream.channel.display_name}} <span id="playing">is playing {{streamProfile.stream.game}}</span></p>
-          <p><i class="fa fa-user" aria-hidden="true"></i> {{streamProfile.stream.viewers}} are watching</p>
-          <p id="status">
-            <span>Status:</span> {{streamProfile.stream.channel.status}}
-          </p>
-        </div>
-        <div class="card-action light-green darken-1">
-          <a :href="streamProfile.stream.channel.url" target="_blank" class="white-text">Watch now!</a>
+  <template id="channels">
+    <!-- <button v-on:click="getStream()">test button</button>
+    <input id="icon_search" class="validate" type="text" v-model="channel" placeholder="Aphromoo"> -->
+      <div v-if="streamProfile.stream">
+          <div class="card">
+            <div class="card-image" class="responsive-img">
+              <a :href="streamProfile.stream.preview.large"
+              target="_blank"><img :src="streamProfile.stream.preview.large" class="image"></a>
+              <span class="card-title">{{streamProfile.stream.channel.display_name}} is live</span>
+            </div>
+            <div class="card-content">
+              <p id="display_name">{{streamProfile.stream.channel.display_name}}
+                <span id="playing">is playing {{streamProfile.stream.game}}</span></p>
+              <p><i class="fa fa-user" aria-hidden="true"></i> {{streamProfile.stream.viewers}} are watching</p>
+              <p id="status">
+                <span>Status:</span> {{streamProfile.stream.channel.status}}
+              </p>
+            </div>
+            <div class="card-action light-green darken-1">
+              <a :href="streamProfile.stream.channel.url" target="_blank" class="white-text">Watch now!</a>
+            </div>
+          </div>
+      </div>
+      <div v-else="streamProfile === null">
+        <div class="card">
+          <template v-if="streamProfile.stream === null">
+            <div class="card-image" class="responsive-img">
+            <a :href="channelProfile.url" target="_blank"><img :src="channelProfile.logo" class="image"></a>
+              <span class="card-title">{{channelProfile.display_name}} is offline</span>
+            </div>
+          <div class="card-content">
+            <p id="status">
+              <span>Last status:</span> {{channelProfile.status}}
+            </p>
+          </div>
+          <div class="card-action red darken-4">
+            <a :href="channelProfile.url" target="_blank" class="white-text">Last videos</a>
+          </div>
+          </template>
+          <template v-else="channelProfile.data.status == 404">
+            <div class="card-image" class="responsive-img">
+              <img src="http://images.8tracks.com/cover/i/009/556/092/404_not_found-5844.jpg" class="image">
+             <span class="card-title">404</span>
+            </div>
+            <div class="card-content">
+              <p id="status">
+                <span>Status:</span> Channel: {{channels.channel}}, doesnt exist.
+              </p>
+            </div>
+            <div class="card-action red darken-4">
+              <a href="http://twitch.tv" target="_blank" class="white-text">404</a>
+            </div>
+          </template>
         </div>
       </div>
-    </div>
-  </div>
-  </div>
-</template>
 
-<template id="channels-offline">
-<div v-if="!streamProfile.stream">
-    <div class="row">
-       <div class="col s12">
-         <div class="card red darken-4">
-           <div class="card-image">
-             <div v-if="channelProfile.profile_banner">
-               <a :href="channelProfile.profile_banner" target="_blank">
-               <img :src="channelProfile.profile_banner"></a>
-             </div>
-             <div v-else>
-               <a :href="channelProfile.logo" target="_blank">
-               <img :src="channelProfile.logo"><a/>
-             </div>
-             <span class="card-title">{{channelProfile.display_name}} is offline</span>
-           </div>
-           <div class="card-content white">
-
-             <span id="status">
-               <p>Last Status:
-                {{channelProfile.status}}</p>
-             </span>
-           </div>
-           <div class="card-action">
-             <a :href="channelProfile.url" target="_blank" class="white-text">Old videos</a>
-           </div>
-         </div>
-       </div>
-     </div>
-</div>
-
-</template>
+  </template>
 
 
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/vue/latest/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.0/vue-resource.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
 
 
-  <!-- Latest compiled and minified JavaScript -->
-  <script src="https://cdn.jsdelivr.net/vue/latest/vue.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.0/vue-resource.min.js"></script>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
 
+  <footer  class="page-footer">
 
-  <script src="js/main.js"></script>
-</body>
-
-<footer  class="page-footer">
-
-</footer>
-</html>
+  </footer>
+  </html>
