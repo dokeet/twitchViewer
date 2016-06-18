@@ -94,10 +94,7 @@ const vm = new Vue({
 
     channels: [
       {channel: 'freecodecamp'},
-      {channel: 'hastad'},
       {channel: 'TSM_Dyrus'},
-      {channel: 'Keireth'},
-      {channel: 'Pobelter'},
       {channel: 'tsm_theoddone'},
       {channel: 'TSM_Bjergsen'},
       {channel: 'imaqtpie'},

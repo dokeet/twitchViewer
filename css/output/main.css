@@ -2,6 +2,16 @@ a {
   text-decoration: none;
   color: white; }
 
+.coded {
+  color: #7b1fa2; }
+  .coded a {
+    color: #7b1fa2; }
+  .coded a:hover {
+    color: white;
+    font-size: 15px;
+    background-color: #7b1fa2;
+    border-radius: 8px; }
+
 #display_name {
   font-size: 24px; }
 
